@@ -17,7 +17,9 @@ export default async function Home() {
 
       const response = await getCategories();
 
-      const {data} = await getProducts();
+      const productsResponse = await getProducts();
+const data = productsResponse?.data ?? [];
+
       console.log(data);
   return (
     <>
@@ -25,7 +27,7 @@ export default async function Home() {
     <MainSlider/>
       <div className="px-15">
     <div> <CategorySliderComponent category ={response?.data} /></div>
-    <div> <ProductsGrid products ={data} /></div>
+    <div> <ProductsGrid /></div>
       </div>
     </div>
     </>

@@ -17,7 +17,7 @@ const CartContext = createContext<CartContextType>({
 
 export default function CartContextProvider({children}:{children: React.ReactNode}){
 
-    const [cartDetails, setcartDetails] = useState(null)
+    const [cartDetails, setcartDetails] = useState<CartData | null>(null);
 
     async function getCardDetails(){
           

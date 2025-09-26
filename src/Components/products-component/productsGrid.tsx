@@ -3,6 +3,12 @@ import React, { useEffect, useState } from "react";
 import ProductCard from "../productsCard-component/ProductCard";
 import { Button } from "@/Components/ui/button";
 import axios from "axios";
+import { Product } from "@/app/types/product.model";
+
+interface ProductsGridProps {
+  products: Product[];  
+}
+
 
 export default function ProductsGrid() {
   const [products, setProducts] = useState<Product[]>([]);

@@ -8,6 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { StarRating } from "react-flexible-star-rating";
 import toast from "react-hot-toast";
+import { Product } from "@/app/types/product.model"; 
 
 export default function ProductCard({ product }: { product: Product }) {
   const { getCardDetails } = useCart();

@@ -31,7 +31,7 @@ export default function CategoriesList() {
           All <span className=" text-white">Categories</span>
         </h1>
         <p className=" text-white text-lg">
-          Shop from a big variety of products' categories
+          Shop from a big variety of products categories
         </p>
       </div>
     

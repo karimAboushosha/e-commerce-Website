@@ -19,7 +19,7 @@ interface Brand {
   image: string;
 }
 
-interface Product {
+export interface Product {
   sold: number;
   images: string[];
   subcategory: Subcategory[];
