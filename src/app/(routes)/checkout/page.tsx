@@ -35,7 +35,7 @@ async function onSubmit(values:Inputs){
     if(paymentMethod == "cash"){
             try {
         
-            const response = await getCashPayment(cartId as string, values);
+            const response = await getCashPayment(cartId as string, values as any);
         console.log(response?.data?.status);
         console.log("Payment response:", response);
 
@@ -56,7 +56,7 @@ async function onSubmit(values:Inputs){
     } else if (paymentMethod == "online"){
         try {
         
-            const response = await getOnlinePayment(cartId as string, values);
+            const response = await getOnlinePayment(cartId as string, values as any);
 
             // console.log(response?.data, "ttttttttttt");
             // console.log("Online Payment response:", response);
