@@ -14,12 +14,33 @@ export default function ProductCard({ product }: { product: Product }) {
   const { getCardDetails } = useCart();
   const { addToFavorites, removeFromFavorites, isFavorite } = useFavorites();
 
-  async function handleAddToCart(productId: string) {
-    const response = await addProductToCart(productId);
-    toast.success(response?.message);
-    await getCardDetails();
-  }
+  // async function handleAddToCart(productId: string) {
+  //   const response = await addProductToCart(productId);
+  //   toast.success(response?.message);
+  //   await getCardDetails();
+  // }
 
+
+async function handleAddToCart(productId: string) {
+  try {
+    const response = await addProductToCart(productId);
+
+    if (response?.status === 200) {
+      toast.success(response.message || "Added to cart");
+      await getCardDetails();
+    } else if (response?.status === 401) {
+      toast.error(response.message || "You must be logged in to add products");
+    } else {
+      toast.error(response?.message || "Failed to add product to cart");
+    }
+  } catch (error: any) {
+    toast.error("Something went wrong. Please try again.");
+    console.error(error);
+  }
+}
+
+
+  
   return (
     <Card className="relative group overflow-hidden rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 bg-white">
       {/* Image */}
