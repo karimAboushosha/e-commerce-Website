@@ -138,7 +138,8 @@
 
 import axios from "axios";
 import { getServerSession } from "next-auth";
-import { options } from "@/app/api/auth/[...nextauth]/route"; // adjust path if needed
+import { options } from "@/app/api/auth/[...nextauth]/route"; // adjust if path differs
+import toast from "react-hot-toast"; // ✅ add this for user-friendly messages
 
 // Helper to get the backend token from session
 async function getUserToken() {
@@ -149,13 +150,14 @@ async function getUserToken() {
 export async function getUserCart() {
   try {
     const token = await getUserToken();
-    if (!token) throw new Error("No auth token");
+    if (!token) {
+      toast.error("You must be logged in to view your cart");
+      return { data: [], status: 401, message: "Not logged in" };
+    }
 
     const response = await axios.get(
       "https://ecommerce.routemisr.com/api/v1/cart",
-      {
-        headers: { token },
-      }
+      { headers: { token } }
     );
 
     return {
@@ -165,6 +167,7 @@ export async function getUserCart() {
     };
   } catch (error: any) {
     if (axios.isAxiosError(error)) {
+      toast.error(error.response?.data?.message || "Error fetching cart");
       return {
         data: [],
         status: error.response?.status,
@@ -177,15 +180,18 @@ export async function getUserCart() {
 export async function addProductToCart(productId: string) {
   try {
     const token = await getUserToken();
-    if (!token) throw new Error("No auth token");
+    if (!token) {
+      toast.error("You must be logged in to add products to the cart");
+      return { data: [], status: 401, message: "Not logged in" };
+    }
 
     const response = await axios.post(
       "https://ecommerce.routemisr.com/api/v1/cart",
       { productId },
-      {
-        headers: { token },
-      }
+      { headers: { token } }
     );
+
+    toast.success(response?.data?.message || "Added to cart");
 
     return {
       data: response?.data?.data,
@@ -194,6 +200,7 @@ export async function addProductToCart(productId: string) {
     };
   } catch (error: any) {
     if (axios.isAxiosError(error)) {
+      toast.error(error.response?.data?.message || "Error adding to cart");
       return {
         data: [],
         status: error.response?.status,
@@ -206,14 +213,17 @@ export async function addProductToCart(productId: string) {
 export async function removeProduct(productId: string) {
   try {
     const token = await getUserToken();
-    if (!token) throw new Error("No auth token");
+    if (!token) {
+      toast.error("You must be logged in to remove products");
+      return { data: [], status: 401, message: "Not logged in" };
+    }
 
     const response = await axios.delete(
       `https://ecommerce.routemisr.com/api/v1/cart/${productId}`,
-      {
-        headers: { token },
-      }
+      { headers: { token } }
     );
+
+    toast.success(response?.data?.message || "Removed from cart");
 
     return {
       data: response?.data?.data,
@@ -222,6 +232,7 @@ export async function removeProduct(productId: string) {
     };
   } catch (error: any) {
     if (axios.isAxiosError(error)) {
+      toast.error(error.response?.data?.message || "Error removing product");
       return {
         data: [],
         status: error.response?.status,
@@ -234,15 +245,18 @@ export async function removeProduct(productId: string) {
 export async function updateProduct(productId: string, count: number) {
   try {
     const token = await getUserToken();
-    if (!token) throw new Error("No auth token");
+    if (!token) {
+      toast.error("You must be logged in to update cart items");
+      return { data: [], status: 401, message: "Not logged in" };
+    }
 
     const response = await axios.put(
       `https://ecommerce.routemisr.com/api/v1/cart/${productId}`,
       { count },
-      {
-        headers: { token },
-      }
+      { headers: { token } }
     );
+
+    toast.success(response?.data?.message || "Cart updated");
 
     return {
       data: response?.data?.data,
@@ -251,6 +265,7 @@ export async function updateProduct(productId: string, count: number) {
     };
   } catch (error: any) {
     if (axios.isAxiosError(error)) {
+      toast.error(error.response?.data?.message || "Error updating cart");
       return {
         data: [],
         status: error.response?.status,

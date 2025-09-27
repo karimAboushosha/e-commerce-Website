@@ -41,5 +41,5 @@ export async function middleware(req: NextRequest) {
 
 export const config = {
   // only protect pages that require login
-  matcher: ["/cart", "/checkout", "/favorites"],
+  matcher: ["/cart", "/checkout"],
 };

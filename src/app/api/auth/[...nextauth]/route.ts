@@ -18,6 +18,7 @@ declare module "next-auth" {
 
   interface User extends DefaultUser {
     token?: string; // backend token
+    
   }
 }
 
@@ -72,7 +73,7 @@ session :{
     strategy:"jwt"
 },
 pages:{
-    signIn: '/login'
+    signIn: '/login',
 },
 
 // callbacks:{
@@ -97,6 +98,7 @@ callbacks: {
     return session;
   },
 },
+
 
 // secret:process.env.AUTH_SECRET
 
