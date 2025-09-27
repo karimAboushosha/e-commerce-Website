@@ -18,5 +18,5 @@ const token =
  
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: ["/products"],
+  matcher: ["/products","/checkout", "/favorites"],
 }
